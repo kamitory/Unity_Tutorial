@@ -5,34 +5,51 @@ using UnityEngine;
 public class Test : MonoBehaviour
 {
     [SerializeField]
-    private Rigidbody myRigid;
-    private Vector3 rotation;
+    private BoxCollider col;
+    
 
     //Vector3 rotation;
-    private void Start()
-    { 
-        myRigid = GetComponent<Rigidbody>();
-        //rotation = this.transform.eulerAngles;
+    void Start()
+    {
+        col = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
-    void Update()
+    //void Update()
+    //{
+    //   //if (Input.GetKeyDown(KeyCode.W))
+    //   //{
+    //   //    Debug.Log("col.bounds " + col.bounds);
+    //   //    Debug.Log("col.bounds.extents " + col.bounds.extents);
+    //   //    Debug.Log("col.bounds.extents.x " + col.bounds.extents.x);
+    //   //    Debug.Log("col.size " + col.size);
+    //   //    Debug.Log("col.center " + col.center);
+    //   //
+    //   //}
+    //
+    //    if ( Input.GetMouseButtonDown(0))
+    //    {
+    //        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //        RaycastHit hitInfo;
+    //       if( col.Raycast(ray, out hitInfo, 1000))
+    //        {
+    //            this.transform.position = hitInfo.point;
+    //        }
+    //    }
+    //}
+
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    
+    //}
+    private void OnTriggerStay(Collider other)
     {
-       if (Input.GetKey(KeyCode.W))
-        {
-            //myRigid.velocity = Vector3.forward;
-            //myRigid.angularVelocity = Vector3.right;
-            //myRigid.maxAngularVelocity = 100;
-            //myRigid.angularVelocity = Vector3.right*100;
+        other.transform.position += new Vector3(0, 0, 0.1f);
+    }
 
-
-            //myRigid.MovePosition(transform.forward);
-            // rotation += new Vector3(90, 0, 0) * Time.deltaTime;
-            //myRigid.MoveRotation(Quaternion.Euler(rotation));
-            //myRigid.AddForce(Vector3.forward);
-            //myRigid.AddTorque(Vector3.up);
-
-            myRigid.AddExplosionForce(10, this.transform.right, 10);
-        }
+    private void OnTriggerExit(Collider other)
+    {
+        other.transform.position = new Vector3(0, 2, 0);
     }
 }
