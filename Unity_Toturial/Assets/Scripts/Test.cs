@@ -5,35 +5,34 @@ using UnityEngine;
 public class Test : MonoBehaviour
 {
     [SerializeField]
-    private GameObject go_camera;
+    private Rigidbody myRigid;
+    private Vector3 rotation;
 
     //Vector3 rotation;
-    //private void Start()
-    //{
-    //    rotation = this.transform.eulerAngles;
-    //}
+    private void Start()
+    { 
+        myRigid = GetComponent<Rigidbody>();
+        //rotation = this.transform.eulerAngles;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        transform.RotateAround(go_camera.transform.position, Vector3.up, 100 * Time.deltaTime);
-
-        if (Input.GetKey(KeyCode.W))
+       if (Input.GetKey(KeyCode.W))
         {
-            //this.transform.position = this.transform.position + new Vector3(0, 0, 1) * Time.deltaTime;
-            // this.transform.Translate(new Vector3(0, 0, 1) * Time.deltaTime);
-            //this.transform.eulerAngles = transform.eulerAngles + new Vector3(90, 0, 0) * Time.deltaTime;
-            //Debug.Log(transform.eulerAngles);
-
-            //this.transform.Rotate(new Vector3(90, 0, 0) * Time.deltaTime);
-            //rotation = rotation + new Vector3(90, 0, 0) * Time.deltaTime;
-            //this.transform.rotation = Quaternion.Euler(rotation);
+            //myRigid.velocity = Vector3.forward;
+            //myRigid.angularVelocity = Vector3.right;
+            //myRigid.maxAngularVelocity = 100;
+            //myRigid.angularVelocity = Vector3.right*100;
 
 
-            //moveSpeed * this.transform.forward * Time.deltaTime;
+            //myRigid.MovePosition(transform.forward);
+            // rotation += new Vector3(90, 0, 0) * Time.deltaTime;
+            //myRigid.MoveRotation(Quaternion.Euler(rotation));
+            //myRigid.AddForce(Vector3.forward);
+            //myRigid.AddTorque(Vector3.up);
 
-            //this.transform.transform.LookAt(go_camera.transform.position);
-            
+            myRigid.AddExplosionForce(10, this.transform.right, 10);
         }
     }
 }
