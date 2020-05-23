@@ -5,29 +5,21 @@ using UnityEngine;
 public class Test : MonoBehaviour
 {
     [SerializeField]
-    private Material violet_Mat;
+    private GameObject go_Target;
     [SerializeField]
-    private Material bluegreen_Mat;
+    private float Speed;
 
-    private MeshRenderer mesh;
+    private Vector3 difValue;
 
-    //Vector3 rotation;
     void Start()
     {
-        mesh = GetComponent<MeshRenderer>();
+        difValue = transform.position - go_Target.transform.position;
+        difValue = new Vector3(Mathf.Abs(difValue.x), Mathf.Abs(difValue.y), Mathf.Abs(difValue.z));
     }
     
    void Update()
     {
-        if(Input.GetMouseButton(0))
-        {
-            mesh.material = bluegreen_Mat;
-        }
-        else
-        {
-            mesh.material = violet_Mat;
-
-        }
+        this.transform.position = Vector3.Lerp(this.transform.position, go_Target.transform.position + difValue, Speed);
     }
 
 
