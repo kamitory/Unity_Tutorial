@@ -4,22 +4,34 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject go_Target;
-    [SerializeField]
-    private float Speed;
+    private Light theLight;
 
-    private Vector3 difValue;
+    private float targetIntensity;
+    private float currentIntensity;
 
     void Start()
     {
-        difValue = transform.position - go_Target.transform.position;
-        difValue = new Vector3(Mathf.Abs(difValue.x), Mathf.Abs(difValue.y), Mathf.Abs(difValue.z));
+        theLight = GetComponent<Light>();
+        currentIntensity = theLight.intensity;
+        targetIntensity = Random.Range(0.4f, 1f);
     }
     
    void Update()
     {
-        this.transform.position = Vector3.Lerp(this.transform.position, go_Target.transform.position + difValue, Speed);
+        if(Mathf.Abs(targetIntensity - currentIntensity) >= 0.01)
+        {
+            if (targetIntensity - currentIntensity >= 0)
+                currentIntensity += Time.deltaTime * 3f;
+            else
+                currentIntensity -= Time.deltaTime * 3f;
+
+            theLight.intensity = currentIntensity;
+            theLight.range = currentIntensity + 10;
+        }
+        else
+        {
+            targetIntensity = Random.Range(0.4f, 1f);
+        }
     }
 
 
