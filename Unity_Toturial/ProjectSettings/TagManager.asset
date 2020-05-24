@@ -13,11 +13,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - PostProcessing
+  - Player
+  - Enemy
+  - Cube
+  - Bullet
   - 
   - 
   - 
