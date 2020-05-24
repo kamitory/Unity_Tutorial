@@ -5,47 +5,39 @@ using UnityEngine.UI;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] private Text txt_name;
-    [SerializeField] private Image image_name;
-    [SerializeField] private Sprite sprite;
+    [SerializeField] private Slider slider;
 
-    private bool isCoolTime = false;
+    private bool isClick;
 
-    private float currentTime = 5f;
-    private float delayTime = 5f;
-    //[SerializeField] private UnityEngine.UI.Text txt_name;
-    
+    private float dotTime = 1f;
+    private float currentDotTime = 0f;
+
+    void Start()
+    {
+        currentDotTime = dotTime; 
+    }
+
     void Update()
     {
-        //image_name.sprite =
-        //image_name.color = Color.red; 
-
-        if (isCoolTime)
+        if (isClick)
         {
-            currentTime -= Time.deltaTime;
-            image_name.fillAmount = currentTime / delayTime;
-
-            if(currentTime <= 0)
+            currentDotTime -= Time.deltaTime;
+            if (currentDotTime <= 0)
             {
-                isCoolTime = false;
-                currentTime = delayTime;
-                image_name.fillAmount = currentTime;
+                slider.value -= Time.deltaTime;
+                if (currentDotTime <= -1f)
+                {
+                    currentDotTime = dotTime;
+                }
             }
         }
-    
     }
 
 
-    public void Change()
+    public void Button()
     {
-        txt_name.text = "변경됨";
-        isCoolTime = true;
-        //image_name.fillAmount = 0.5f;
+        isClick = true;
     }
 
-    //void Start()
-    //{
-    //  
-    //}
 
 }
