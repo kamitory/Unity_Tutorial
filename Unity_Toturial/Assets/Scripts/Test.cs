@@ -13,57 +13,23 @@ public class Dialogue
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer sprite_StandingCG;
-    [SerializeField] private SpriteRenderer sprite_DialogueBox;
-    [SerializeField] private Text txt_Dialogue;
+    private AudioSource theAudio;
 
-    private bool isDialogue = false;
+    [SerializeField] private AudioClip[] clip;
 
-    private int count = 0;
 
-    [SerializeField] private Dialogue[] dialogue;
 
-    public void ShowDialogue()
+    void Start()
     {
-        OnOff(true);
-       
-        count = 0;
-        NextDialogue(); 
-    }
-    private void OnOff(bool _flag)
-    {
-        sprite_DialogueBox.gameObject.SetActive(_flag);
-        sprite_StandingCG.gameObject.SetActive(_flag);
-        txt_Dialogue.gameObject.SetActive(_flag);
-        isDialogue = _flag;
-    }
-    //private void HideDialogue()
-    //{
-    //    sprite_DialogueBox.gameObject.SetActive(false);
-    //    sprite_StandingCG.gameObject.SetActive(false);
-    //    txt_Dialogue.gameObject.SetActive(false);
-    //    isDialogue = false;
-    //}
-
-    private void NextDialogue()
-    {
-        txt_Dialogue.text = dialogue[count].dialogue;
-        sprite_StandingCG.sprite = dialogue[count].cg;
-        count++;
+        theAudio = GetComponent<AudioSource>();
     }
 
-    private void Update()
+    public void PlaySE()
     {
-        if(isDialogue)
-        {
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                if (count < dialogue.Length)
-                    NextDialogue();
-                else
-                    OnOff(false);
-            }
-        }
+        int _temp = Random.Range(0, 4);
+
+        theAudio.clip = clip[_temp];
+        theAudio.Play();
     }
 
 }
