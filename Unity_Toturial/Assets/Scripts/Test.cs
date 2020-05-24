@@ -5,39 +5,22 @@ using UnityEngine.UI;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] private Slider slider;
+    [SerializeField] private Text txt_Money;
+    [SerializeField] private InputField inputTxT_Money;
 
-    private bool isClick;
+    private int currentMoney;
 
-    private float dotTime = 1f;
-    private float currentDotTime = 0f;
-
-    void Start()
+    public void input()
     {
-        currentDotTime = dotTime; 
-    }
+        currentMoney += int.Parse(inputTxT_Money.text);
 
-    void Update()
+        txt_Money.text = currentMoney.ToString();
+    }
+    public void output()
     {
-        if (isClick)
-        {
-            currentDotTime -= Time.deltaTime;
-            if (currentDotTime <= 0)
-            {
-                slider.value -= Time.deltaTime;
-                if (currentDotTime <= -1f)
-                {
-                    currentDotTime = dotTime;
-                }
-            }
-        }
+        currentMoney -= int.Parse(inputTxT_Money.text);
+
+        txt_Money.text = currentMoney.ToString();
     }
-
-
-    public void Button()
-    {
-        isClick = true;
-    }
-
 
 }
