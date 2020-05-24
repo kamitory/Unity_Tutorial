@@ -1,71 +1,50 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.AI;
 
-[System.Serializable]
-public class Dialogue
-{
-    [TextArea]
-    public string dialogue;
-    public Sprite cg;
-}
 
 public class Test : MonoBehaviour
 {
-   // private AudioSource theAudio;
-   //
-   // [SerializeField] private LayerMask layerMask;
-    [SerializeField] private GameObject go_BulletPrefab;
-    private float createTime = 1f;
-    private float currentCreateTime = 0;
-   //
-   //
-   //
-   // void Start()
-   // {
-   // }
+    Rigidbody myRigid;
+    [SerializeField] private float moveSpeed;
 
-    void Update()
+    NavMeshAgent agent;
+
+    [SerializeField] private Transform[] tf_Destination;
+    private Vector3[] wayPoint;
+
+    private void Start()
     {
-      currentCreateTime += Time.deltaTime;
+        myRigid = GetComponent<Rigidbody>();
+        agent = GetComponent<NavMeshAgent>();
 
+        wayPoint = new Vector3[tf_Destination.Length + 1];
+        for (int i = 0; i < tf_Destination.Length; i++)
+            wayPoint[i] = tf_Destination[i].position;
+        wayPoint[wayPoint.Length - 1] = transform.position;
+    }
 
+    private void Update()
+    {
+        Patrol();
+        //if(Input.GetKeyDown(KeyCode.W))
+        //{
+        //    agent.SetDestination(tf_Destination.position);
+        //}
+    }
 
-        Collider[] col = Physics.OverlapSphere(transform.position, 5f);
-
-        if(col.Length >0)
+    private void Patrol()
+    {
+        for (int i = 0; i < wayPoint.Length; i++)
         {
-            for (int i = 0; i < col.Length; i++)
+            if(Vector3.Distance(transform.position, wayPoint[i]) <= 0.1f)
             {
-                Transform tf_Target = col[i].transform;
-                if (tf_Target.tag == "Player")
-                {
-                    Quaternion rotation = Quaternion.LookRotation(tf_Target.position - this.transform.position);
-                    transform.rotation = rotation;
-
-                    if (currentCreateTime >= createTime)
-                    {
-                        //    currentCreateTime = 0f;
-                        //    RaycastHit hitInfo;
-                        //    if (Physics.Raycast(this.transform.position, this.transform.forward, out hitInfo, 10f , layerMask))
-                        //    {
-                        //        if (hitInfo.transform.tag == "Player")
-                        //        {
-                        Instantiate(go_BulletPrefab, transform.position, rotation);
-                        currentCreateTime = 0;
-
-
-                        //GameObject _temp = Instantiate(go_BulletPrefab, transform.position, rotation);
-                        //Physics.IgnoreCollision(_temp.GetComponent<Collider>(), tf_Target.GetComponent<Collider>());
-                        //currentCreateTime = 0;
-                        //        }
-                        //    }
-                    }
-                }
+                if(i != wayPoint.Length -1)
+                agent.SetDestination(wayPoint[i + 1]);
+                else
+                agent.SetDestination(wayPoint[0]);
             }
         }
     }
-
-
 }
